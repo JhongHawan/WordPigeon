@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "44417084186",
+    "firebase_url": "https://wordpigeon.firebaseio.com",
+    "project_id": "wordpigeon",
+    "storage_bucket": "wordpigeon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44417084186:android:91614a4219231a86e41aa3",
+        "android_client_info": {
+          "package_name": "com.jhonghawan.wordpigeon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44417084186-m42383sdcav19j21cjc1g4ab64ij6kn8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0pPNAwZtZTx2WzPdqWYlq_drXlmqDwTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44417084186-m42383sdcav19j21cjc1g4ab64ij6kn8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
