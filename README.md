@@ -1,7 +1,7 @@
 # Word Pigeon 
 
 <p align="center">
-  ![](/img/Logo.png)
+    <img src="/img/Logo.png"/>
 </p>
 
 ## Demo 
