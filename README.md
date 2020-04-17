@@ -1,8 +1,24 @@
 # WordPigeon 
 
-## BUILD/INSTALLATION INSTRUCTIONS
-  * Clone repo locally, then open and build project in Android Studio.
-  
+## Getting Started
+
+## Build/Installation Instructions
+  * Clone repo locally, then open and build project in Android Studio. Run the app using a USB cable connected to an Android Device 
+
+## Technologies Used
+
+* [React](https://reactjs.org/) - Frontend development
+* [Node.js](https://nodejs.org/en/) - Backend development
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## Authors
+
+* **James Jhong** 
+* **Brian Jhong** 
+
 ## MIT License
 Copyright 2019 Michael Shea
 
