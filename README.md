@@ -1,6 +1,6 @@
 # Word Pigeon 
 
-[INSERT LOGO PICTURE HERE]
+![GitHub Logo](/images/logo.png)
 
 ## Demo 
 
