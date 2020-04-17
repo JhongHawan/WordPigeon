@@ -1,6 +1,6 @@
 # Word Pigeon 
 
-![WordPigeonLogo](img/logo.png)
+![](img/logo.png)
 
 ## Demo 
 
