@@ -6,14 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".Classify">
 
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_below="@id/classify_image"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-474dp"
+        android:layout_marginEnd="310dp"
+        android:layout_marginRight="310dp"
+        android:text="Back" />
+
     <ImageView
         android:id="@+id/selected_image"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
         android:layout_below="@id/selected_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginLeft="54dp"
+        android:layout_marginTop="91dp"
+        android:layout_marginEnd="55dp"
+        android:layout_marginRight="55dp"
         app:srcCompat="@android:color/background_light" />
 
     <Button
@@ -21,29 +40,31 @@
         android:layout_width="wrap_content"
         android:layout_height="45dp"
         android:layout_below="@id/selected_image"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="252dp"
+        android:layout_marginLeft="252dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="69dp"
+        android:layout_marginRight="69dp"
         android:text="Classify!" />
-
-    <Button
-        android:id="@+id/back_button"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_below="@id/classify_image"
-        android:layout_centerHorizontal="true"
-        android:text="Back" />
 
     <LinearLayout
         android:id="@+id/labels"
         android:layout_width="match_parent"
-        android:layout_height="89dp"
+        android:layout_height="174dp"
+        android:layout_below="@+id/classify_image"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/back_button"
         android:layout_gravity="center"
+        android:layout_marginTop="34dp"
         android:layout_marginBottom="44dp"
         android:orientation="vertical">
 
+        <!-- Labels are organized with word and translation underneath -->
         <LinearLayout
-            android:layout_width="370dp"
+            android:layout_width="376dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
@@ -67,6 +88,7 @@
 
         </LinearLayout>
 
+        <!-- Label 1 & Translation -->
         <LinearLayout
             android:layout_width="370dp"
             android:layout_height="wrap_content"
@@ -98,6 +120,22 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/trans1"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Label 2 & Translation -->
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/label2"
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
@@ -121,9 +159,25 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/trans2"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- Label 3 & Translation -->
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
                 android:id="@+id/label3"
                 android:layout_width="240dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="3."
                 android:textSize="14sp" />
 
@@ -135,8 +189,23 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-    </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/trans3"
+                android:layout_width="350dp"
+                android:layout_height="match_parent"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 </RelativeLayout>
