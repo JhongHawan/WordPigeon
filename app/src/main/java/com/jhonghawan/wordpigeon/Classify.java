@@ -37,28 +37,30 @@ import java.nio.channels.FileChannel;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Classify extends AppCompatActivity {
 
     //spanish translator
     private final FirebaseTranslator englishSpanishTranslator =
             FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.ES));
-    //hindi translator
-    private final FirebaseTranslator englishHindiTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.HI));
+    // translator
+    private final FirebaseTranslator englishFrenchTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.FR));
     //
-    private final FirebaseTranslator englishArabicTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.AR));
+    private final FirebaseTranslator englishGermanTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.DE));
     //
-    private final FirebaseTranslator englishPortugueseTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.PT));
+    private final FirebaseTranslator englishItalianTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.IT));
     //
-    private final FirebaseTranslator englishBengaliTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.BN));
-
+    private final FirebaseTranslator englishJapaneseTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.JA));
+    
     // presets for rgb conversion
     private static final int RESULTS_TO_SHOW = 3;
     private static final int IMAGE_MEAN = 128;
@@ -77,10 +79,11 @@ public class Classify extends AppCompatActivity {
     // holds the probabilities of each label for quantized graphs
     private byte[][] labelProbArrayB = null;
     // array that holds the labels with the highest probabilities
-    private String[] topLables = null;
+    private String[] topLabels = null;
     // array that holds the highest probabilities
     private String[] topConfidence = null;
-
+    //map set with target language and source language words
+    private String[] translations;
 
     // selected classifier information received from extras
     private String chosen;
@@ -90,6 +93,9 @@ public class Classify extends AppCompatActivity {
     private int DIM_IMG_SIZE_X = 299;
     private int DIM_IMG_SIZE_Y = 299;
     private int DIM_PIXEL_SIZE = 3;
+
+    // used in the make translations method to access translations
+    private int transIndex = RESULTS_TO_SHOW - 1;
 
     // int array to hold image data
     private int[] intValues;
@@ -166,9 +172,10 @@ public class Classify extends AppCompatActivity {
         Confidence3 = (TextView) findViewById(R.id.Confidence3);
         // initialize imageView that displays selected image to the user
         selected_image = (ImageView) findViewById(R.id.selected_image);
-
+        // initialize array to hold translations
+        translations = new String[RESULTS_TO_SHOW];
         // initialize array to hold top labels
-        topLables = new String[RESULTS_TO_SHOW];
+        topLabels = new String[RESULTS_TO_SHOW];
         // initialize array to hold top probabilities
         topConfidence = new String[RESULTS_TO_SHOW];
 
@@ -287,14 +294,14 @@ public class Classify extends AppCompatActivity {
         final int size = sortedLabels.size();
         for (int i = 0; i < size; ++i) {
             Map.Entry<String, Float> label = sortedLabels.poll();
-            topLables[i] = label.getKey();
+            topLabels[i] = label.getKey();
             topConfidence[i] = String.format("%.0f%%",label.getValue()*100);
         }
 
         // set the corresponding textviews with the results
-        label1.setText("1. "+topLables[2]);
-        label2.setText("2. "+topLables[1]);
-        label3.setText("3. "+topLables[0]);
+        label1.setText("1. "+topLabels[2]);
+        label2.setText("2. "+topLabels[1]);
+        label3.setText("3. "+topLabels[0]);
         Confidence1.setText(topConfidence[2]);
         Confidence2.setText(topConfidence[1]);
         Confidence3.setText(topConfidence[0]);
@@ -321,27 +328,59 @@ public class Classify extends AppCompatActivity {
                 .build();
     }
 
-    private void jimmy_test(){
-        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
-                .requireWifi()
-                .build();
-        englishSpanishTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener(
-                        new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void v) {
-                                // Model downloaded successfully. Okay to start translating.
-                                // (Set a flag, unhide the translation UI, etc.)
-                            }
-                        })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Model couldn’t be downloaded or other internal error.
-                                // ...
-                            }
-                        });
+//    private void downloadModel(FirebaseTranslator translatorObj) {
+//        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
+//                .requireWifi()
+//                .build();
+//                translatorObj.downloadModelIfNeeded(conditions)
+//                .addOnSuccessListener(
+//                        new OnSuccessListener<String>() {
+//                            @Override
+//                            public void onSuccess(Void v) {
+//                                // Model downloaded successfully. Okay to start translating.
+//                                // (Set a flag, unhide the translation UI, etc.)
+//
+//                                //display the translator
+//
+//
+//                            }
+//                        })
+//                .addOnFailureListener(
+//                        new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                // Model couldn’t be downloaded or other internal error.
+//                                // ...
+//                            }
+//                        });
+//    }
+
+    private void translateText(int langCode) {
+        FirebaseTranslatorOptions options = createTranslator(FirebaseTranslateLanguage.EN, langCode);
+
+        final FirebaseTranslator translator = FirebaseNaturalLanguage.getInstance()
+                .getTranslator(options);
+
+        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().
+                requireWifi().build();
+
+        translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>(){
+           @Override
+           public void onSuccess(Void aVoid) {
+
+               for (int i = topLabels.length - 1; i >= 0; i--) {
+                   translator.translate(topLabels[i]).addOnSuccessListener(new OnSuccessListener<String>() {
+                       @Override
+                       public void onSuccess(String s) {
+                            translations[transIndex] = s;
+                            transIndex--;
+                       }
+                   });
+               }
+               transIndex = RESULTS_TO_SHOW - 1;
+           }
+
+        });
     }
 
 }
