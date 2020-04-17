@@ -7,12 +7,22 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions;
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import org.tensorflow.lite.Interpreter;
 
@@ -32,6 +42,22 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 public class Classify extends AppCompatActivity {
+
+    //spanish translator
+    private final FirebaseTranslator englishSpanishTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.ES));
+    //hindi translator
+    private final FirebaseTranslator englishHindiTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.HI));
+    //
+    private final FirebaseTranslator englishArabicTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.AR));
+    //
+    private final FirebaseTranslator englishPortugueseTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.PT));
+    //
+    private final FirebaseTranslator englishBengaliTranslator =
+            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.BN));
 
     // presets for rgb conversion
     private static final int RESULTS_TO_SHOW = 3;
@@ -287,4 +313,35 @@ public class Classify extends AppCompatActivity {
                 bm, 0, 0, width, height, matrix, false);
         return resizedBitmap;
     }
+
+    protected FirebaseTranslatorOptions createTranslator(int source, int target) {
+        return new FirebaseTranslatorOptions.Builder()
+                .setSourceLanguage(source)
+                .setTargetLanguage(target)
+                .build();
+    }
+
+    private void jimmy_test(){
+        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
+                .requireWifi()
+                .build();
+        englishSpanishTranslator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener(
+                        new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void v) {
+                                // Model downloaded successfully. Okay to start translating.
+                                // (Set a flag, unhide the translation UI, etc.)
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Model couldn’t be downloaded or other internal error.
+                                // ...
+                            }
+                        });
+    }
+
 }
