@@ -1,6 +1,13 @@
 # Word Pigeon 
 
-Welcome to Word Pigeon, a hackathon project for Terminal Hackathon 2020 #TechTakesOnCOVID. In a fight to help individuals affected by COVID-19 Word Pigeon joins to help problems around the education sector. Our Android app uses machine learning image classification to make learning language vocabulary more enjoyable. Users are able to capture images of objects and our app will relay the top 3 most likely classifications and their language translations. 
+[INSERT LOGO PICTURE HERE]
+
+## Demo 
+
+[INSERT DEMO VIDEO HERE]
+
+## Getting Started
+Welcome to Word Pigeon, a hackathon project for Terminal Hackathon 2020 #TechTakesOnCOVID. In a fight to help individuals affected by COVID-19 Word Pigeon joins to help problems around the education sector. Our Android app uses machine learning image classification to make learning language vocabulary more enjoyable. Users are able to capture images of objects and our app will relay the top 3 most likely classifications and their language translations. Original credits for the machine learning code go to Michael Sea with his integration of Tensorflows Inception Model on Android: https://github.com/soum-io/TensorFlowLiteInceptionTutorial
 
 * ***Our app currently only supports translations from English to these languages***
  ***(Based off most learned languages in the United States):***
@@ -10,9 +17,11 @@ Welcome to Word Pigeon, a hackathon project for Terminal Hackathon 2020 #TechTak
 4. Italian
 5. Japanese 
 
-## Getting Started
+## Problem Space
+With many people stuck in there homes they are forced to work, study, and spend most of their time in a small confined space. A problem many students are facing is a lack of motivation and making learning enjoyable at home. 
 
-
+## Target Audience 
+English speaking students of any age looking to improve their foreign language vocabulary. 
 
 ## Build/Installation Instructions
 * Clone repo locally, then open and build project in Android Studio. Run the app using a USB cable connected to an Android Device 
@@ -22,6 +31,7 @@ Welcome to Word Pigeon, a hackathon project for Terminal Hackathon 2020 #TechTak
 * [Adobe XD](https://www.adobe.com/products/xd.html)
 * [Android Studio](https://developer.android.com/studio)
 * [Java](https://www.java.com/en/)
+* [Firebase](https://firebase.google.com/)
 
 ## Contributing
 
