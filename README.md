@@ -1,22 +1,8 @@
 # Word Pigeon 
 
-![](/img/Logo.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p align="center">
+  ![](/img/Logo.png)
+</p>
 
 ## Demo 
 
