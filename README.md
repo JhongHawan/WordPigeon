@@ -48,7 +48,7 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## MIT License
 
-Copyright 2020 WordPigeon  
+Copyright 2020 Word Pigeon  
 
 Copyright 2019 Michael Shea
 
