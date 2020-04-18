@@ -1,7 +1,6 @@
-# Word Pigeon 
-
 <p align="center">
     <img src="/img/Logo.png"/>
+    <h1>Word Pigeon</h1>
 </p>
 
 ## Demo 
