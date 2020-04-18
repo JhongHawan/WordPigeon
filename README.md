@@ -28,7 +28,8 @@ English speaking students of any age looking to improve their foreign language v
 The app currently is based off of pretrained inception models from TensorFlow and they are not the most accurate. Manually training models and using them instead may improve the accuracy for image classification. Our translations are also handled through firebase ML translation kit. We chose this to gain more experience using Firebase and because it was free compared to the Google Translate API. However Firebase ML translation kit requires the download of 30MB translation models per language so it can quickly slow down the app which is why we limited our app to five popular foreign languages learned in the U.S. 
 
 ## Build/Installation Instructions
-* Clone repo locally, then open and build project in Android Studio. Run the app using a USB cable connected to an Android Device 
+* Clone repo locally, then open and build project in Android Studio. 
+* Run the app using a USB cable connected to an Android Device 
 
 ## Technologies Used
 
