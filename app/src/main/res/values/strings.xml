@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">InceptionTutorial</string>
+    <string name="app_name">WordPigeon</string>
+    <string-array name="car_array">
+        <item>Audi</item>
+        <item>BMW</item>
+        <item>Benz</item>
+        <item>Ford</item>
+        <item>Toyota</item>
+        <item>Tesla</item>
+        <item>Honda</item>
+        <item>Hyundai</item>
+    </string-array>
+
 </resources>

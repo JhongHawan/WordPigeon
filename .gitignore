@@ -28,6 +28,8 @@ local.properties
 .idea/vcs.xml
 *.iml
 
+.profile
+
 # OS-specific files
 .DS_Store
 .DS_Store?

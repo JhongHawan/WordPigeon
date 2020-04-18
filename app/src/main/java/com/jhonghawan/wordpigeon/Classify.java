@@ -12,9 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +47,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
-public class Classify extends AppCompatActivity {
+public class Classify extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     //spanish translator
     private final FirebaseTranslator englishSpanishTranslator =
@@ -161,7 +165,11 @@ public class Classify extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_classify);
-
+        Spinner spinner = findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
         // labels that hold top three results of CNN
         label1 = (TextView) findViewById(R.id.label1);
         label2 = (TextView) findViewById(R.id.label2);
@@ -184,7 +192,7 @@ public class Classify extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Classify.this, com.jhonghawan.wordpigeon.ChooseModel.class);
+                Intent i = new Intent(Classify.this, ChooseModel.class);
                 startActivity(i);
             }
         });
@@ -383,4 +391,14 @@ public class Classify extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

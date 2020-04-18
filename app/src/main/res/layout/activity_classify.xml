@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Classify">
+    tools:context=".Classify"
+    android:background="@drawable/Home">
 
     <Button
         android:id="@+id/back_button"
@@ -13,9 +14,9 @@
         android:layout_below="@id/classify_image"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="-474dp"
-        android:layout_marginEnd="310dp"
-        android:layout_marginRight="310dp"
+        android:layout_marginTop="-442dp"
+        android:layout_marginEnd="318dp"
+        android:layout_marginRight="318dp"
         android:text="Back" />
 
     <ImageView
@@ -44,21 +45,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="252dp"
-        android:layout_marginLeft="252dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginRight="69dp"
+        android:layout_marginStart="158dp"
+        android:layout_marginLeft="158dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
         android:text="Classify!" />
 
     <LinearLayout
         android:id="@+id/labels"
         android:layout_width="match_parent"
         android:layout_height="174dp"
-        android:layout_below="@+id/classify_image"
         android:layout_alignParentBottom="true"
         android:layout_gravity="center"
-        android:layout_marginTop="34dp"
         android:layout_marginBottom="44dp"
         android:orientation="vertical">
 
@@ -75,6 +74,7 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:text="Label"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -83,6 +83,7 @@
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="Confidence"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -101,6 +102,7 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:text="1."
+                android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
             <TextView
@@ -140,6 +142,7 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:text="2."
+                android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
             <TextView
@@ -179,6 +182,7 @@
                 android:layout_width="240dp"
                 android:layout_height="match_parent"
                 android:text="3."
+                android:textColor="#FFFFFF"
                 android:textSize="14sp" />
 
             <TextView
@@ -206,6 +210,39 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="57dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="456dp"
+        android:layout_marginEnd="54dp"
+        android:layout_marginRight="54dp"
+        android:layout_marginBottom="245dp"
+        android:background="@drawable/select" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="286dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginRight="47dp"
+        android:layout_marginBottom="660dp"
+        />
+    " />
 
 
 </RelativeLayout>
