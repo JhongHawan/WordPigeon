@@ -1,7 +1,7 @@
-<p align="center">
+<div align="center">
     <img src="/img/Logo.png"/>
     <h1>Word Pigeon</h1>
-</p>
+</div>
 
 ## Demo 
 
