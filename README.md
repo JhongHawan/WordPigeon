@@ -44,8 +44,8 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Authors
 
-* **James Jhong** 
-* **Brian Jhong** 
+* [**James Jhong**](https://github.com/jongjam) 
+* [**Brian Jhong**](https://github.com/JhongHawan) 
 
 ## MIT License
 
