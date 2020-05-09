@@ -5,60 +5,127 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Classify"
-    android:background="@drawable/Home">
+    android:background="@drawable/home"><![CDATA[
+
+
+
+
+
+    " />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ]]>
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_below="@id/classify_image"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="-442dp"
-        android:layout_marginEnd="318dp"
-        android:layout_marginRight="318dp"
-        android:text="Back" />
-
-    <ImageView
-        android:id="@+id/selected_image"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_below="@id/selected_image"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginLeft="54dp"
-        android:layout_marginTop="91dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginRight="55dp"
-        app:srcCompat="@android:color/background_light" />
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="244dp"
+        android:layout_marginRight="244dp"
+        android:background="@drawable/back" />
 
-    <Button
-        android:id="@+id/classify_image"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_below="@id/selected_image"
+    <ImageView
+        android:id="@+id/selected_image"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/back_button"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginStart="158dp"
-        android:layout_marginLeft="158dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginRight="162dp"
-        android:text="Classify!" />
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="61dp"
+        android:layout_marginRight="61dp"
+        app:srcCompat="@android:color/background_light" />
+
+    <Button
+        android:id="@+id/classify_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/selected_image"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="127dp"
+        android:layout_marginLeft="127dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="134dp"
+        android:layout_marginRight="134dp"
+        android:background="@drawable/classify" />
 
     <LinearLayout
         android:id="@+id/labels"
-        android:layout_width="match_parent"
-        android:layout_height="174dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="414dp"
+        android:layout_height="256dp"
+        android:layout_below="@+id/spinner1"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="44dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginRight="-3dp"
         android:orientation="vertical">
 
         <!-- Labels are organized with word and translation underneath -->
@@ -108,6 +175,7 @@
             <TextView
                 android:id="@+id/Confidence1"
                 android:layout_width="110dp"
+                android:textColor="#FFFFFF"
                 android:layout_height="match_parent"
                 android:text=""
                 android:textSize="14sp" />
@@ -123,6 +191,7 @@
 
             <TextView
                 android:id="@+id/trans1"
+                android:textColor="#DC5981"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:textSize="14sp" />
@@ -149,6 +218,7 @@
                 android:id="@+id/Confidence2"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
+                android:textColor="#FFFFFF"
                 android:text=""
                 android:textSize="14sp" />
 
@@ -163,6 +233,7 @@
 
             <TextView
                 android:id="@+id/trans2"
+                android:textColor="#DC5981"
                 android:layout_width="350dp"
                 android:layout_height="match_parent"
                 android:textSize="14sp" />
@@ -189,6 +260,7 @@
                 android:id="@+id/Confidence3"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
+                android:textColor="#FFFFFF"
                 android:text=""
                 android:textSize="14sp" />
 
@@ -203,6 +275,7 @@
 
             <TextView
                 android:id="@+id/trans3"
+                android:textColor="#DC5981"
                 android:layout_width="350dp"
                 android:layout_height="match_parent"
                 android:textSize="14sp" />
@@ -211,36 +284,22 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="286dp"
+        android:textColor="#FFFFFF"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="57dp"
-        android:layout_marginLeft="57dp"
-        android:layout_marginTop="456dp"
-        android:layout_marginEnd="54dp"
-        android:layout_marginRight="54dp"
-        android:layout_marginBottom="245dp"
-        android:background="@drawable/select" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="286dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="47dp"
-        android:layout_marginRight="47dp"
-        android:layout_marginBottom="660dp"
+        android:layout_marginStart="63dp"
+        android:layout_marginLeft="63dp"
+        android:layout_marginTop="430dp"
+        android:layout_marginEnd="62dp"
+        android:layout_marginRight="62dp"
+        android:background="@drawable/select"
         />
     " />
 

@@ -29,6 +29,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import org.tensorflow.lite.Interpreter;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -87,7 +88,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
     // array that holds the highest probabilities
     private String[] topConfidence = null;
     //map set with target language and source language words
-    private String[] translations;
+    private String[] translations = null;
 
     // selected classifier information received from extras
     private String chosen;
@@ -108,9 +109,13 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
     private ImageView selected_image;
     private Button classify_button;
     private Button back_button;
+    private Button translate;
     private TextView label1;
     private TextView label2;
     private TextView label3;
+    private TextView trans1;
+    private TextView trans2;
+    private TextView trans3;
     private TextView Confidence1;
     private TextView Confidence2;
     private TextView Confidence3;
@@ -163,7 +168,16 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         } else {
             labelProbArray = new float[1][labelList.size()];
         }
+        setContentView(R.layout.home);
+        // on click for inception float model
+        translate = (Button)findViewById(R.id.translate);
+        translate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // filename in assets
 
+            }
+        });
         setContentView(R.layout.activity_classify);
         Spinner spinner = findViewById(R.id.spinner1);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
@@ -178,6 +192,10 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         Confidence1 = (TextView) findViewById(R.id.Confidence1);
         Confidence2 = (TextView) findViewById(R.id.Confidence2);
         Confidence3 = (TextView) findViewById(R.id.Confidence3);
+        // translated labels
+        trans1 = (TextView) findViewById(R.id.trans1);
+        trans2 = (TextView) findViewById(R.id.trans2);
+        trans3 = (TextView) findViewById(R.id.trans3);
         // initialize imageView that displays selected image to the user
         selected_image = (ImageView) findViewById(R.id.selected_image);
         // initialize array to hold translations
@@ -310,6 +328,9 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         label1.setText("1. "+topLabels[2]);
         label2.setText("2. "+topLabels[1]);
         label3.setText("3. "+topLabels[0]);
+        trans1.setText("1. "+translations[2]);
+        trans2.setText("2. "+translations[1]);
+        trans3.setText("3. "+translations[0]);
         Confidence1.setText(topConfidence[2]);
         Confidence2.setText(topConfidence[1]);
         Confidence3.setText(topConfidence[0]);
