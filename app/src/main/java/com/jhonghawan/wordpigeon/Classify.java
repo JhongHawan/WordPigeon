@@ -168,7 +168,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         } else {
             labelProbArray = new float[1][labelList.size()];
         }
-        setContentView(R.layout.home);
+        setContentView(R.layout.activity_home_screen);
         // on click for inception float model
         translate = (Button)findViewById(R.id.translate);
         translate.setOnClickListener(new View.OnClickListener() {
