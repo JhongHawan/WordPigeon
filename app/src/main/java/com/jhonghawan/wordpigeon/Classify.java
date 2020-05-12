@@ -232,6 +232,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
                 } else {
                     tflite.run(imgData, labelProbArray);
                 }
+
                 // display the results
                 printTopKLabels();
             }
@@ -300,6 +301,9 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         return labelList;
     }
 
+    /**
+     * TODO: Pass in the language code into this method as a variable.
+     */
     // print the top labels and respective confidences
     private void printTopKLabels() {
         // add all results to priority queue
@@ -323,6 +327,9 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
             topLabels[i] = label.getKey();
             topConfidence[i] = String.format("%.0f%%",label.getValue()*100);
         }
+
+        // translate with correct language code.
+        translateText(FirebaseTranslateLanguage.JA);
 
         // set the corresponding textviews with the results
         label1.setText("1. "+topLabels[2]);
@@ -365,12 +372,12 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
 //                .addOnSuccessListener(
 //                        new OnSuccessListener<String>() {
 //                            @Override
-//                            public void onSuccess(Void v) {
+//                            public void onSuccess(String s) {
 //                                // Model downloaded successfully. Okay to start translating.
 //                                // (Set a flag, unhide the translation UI, etc.)
 //
 //                                //display the translator
-//
+//                            }
 //
 //                            }
 //                        })
