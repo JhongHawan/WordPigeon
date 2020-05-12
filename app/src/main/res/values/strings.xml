@@ -2,6 +2,7 @@
     <string name="app_name">WordPigeon</string>
 
     <string-array name="languages">
+        <item>Choose a Language</item>
         <item>Spanish</item>
         <item>French</item>
         <item>German</item>

@@ -50,22 +50,9 @@ import java.util.Set;
 
 public class Classify extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    //spanish translator
-    private final FirebaseTranslator englishSpanishTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.ES));
-    // translator
-    private final FirebaseTranslator englishFrenchTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.FR));
-    //
-    private final FirebaseTranslator englishGermanTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.DE));
-    //
-    private final FirebaseTranslator englishItalianTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.IT));
-    //
-    private final FirebaseTranslator englishJapaneseTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.JA));
-    
+    //Lang code for selected language from spinner
+    private static int langCode;
+
     // presets for rgb conversion
     private static final int RESULTS_TO_SHOW = 3;
     private static final int IMAGE_MEAN = 128;
@@ -168,7 +155,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         } else {
             labelProbArray = new float[1][labelList.size()];
         }
-        setContentView(R.layout.home);
+        setContentView(R.layout.activity_home_screen);
         // on click for inception float model
         translate = (Button)findViewById(R.id.translate);
         translate.setOnClickListener(new View.OnClickListener() {
@@ -183,7 +170,29 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    langCode = FirebaseTranslateLanguage.ES;
+                } else if (position == 2) {
+                    langCode = FirebaseTranslateLanguage.FR;
+                } else if (position == 3) {
+                    langCode = FirebaseTranslateLanguage.DE;
+                } else if (position == 4) {
+                    langCode = FirebaseTranslateLanguage.IT;
+                } else {
+                    langCode = FirebaseTranslateLanguage.JA;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
         // labels that hold top three results of CNN
         label1 = (TextView) findViewById(R.id.label1);
         label2 = (TextView) findViewById(R.id.label2);
@@ -232,6 +241,10 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
                 } else {
                     tflite.run(imgData, labelProbArray);
                 }
+
+
+
+
                 // display the results
                 printTopKLabels();
             }
@@ -384,6 +397,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
 //                        });
 //    }
 
+
     private void translateText(int langCode) {
         FirebaseTranslatorOptions options = createTranslator(FirebaseTranslateLanguage.EN, langCode);
 
@@ -411,6 +425,9 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
 
         });
     }
+
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
