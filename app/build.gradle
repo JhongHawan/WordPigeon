@@ -54,5 +54,7 @@ dependencies {
     // Firebase ml dependencies
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
     implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.8'
+    // Brother Printer Library
+    implementation project(":BrotherPrintLibrary")
 
 }
