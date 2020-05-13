@@ -51,7 +51,7 @@ import java.util.Set;
 public class Classify extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     //Lang code for selected language from spinner
-    private static int langCode;
+    private int langCode;
 
     // presets for rgb conversion
     private static final int RESULTS_TO_SHOW = 3;
@@ -173,16 +173,18 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 1) {
-                    langCode = FirebaseTranslateLanguage.ES;
-                } else if (position == 2) {
-                    langCode = FirebaseTranslateLanguage.FR;
-                } else if (position == 3) {
-                    langCode = FirebaseTranslateLanguage.DE;
-                } else if (position == 4) {
-                    langCode = FirebaseTranslateLanguage.IT;
-                } else {
-                    langCode = FirebaseTranslateLanguage.JA;
+                if (position != 0) {
+                    if (position == 1) {
+                        langCode = FirebaseTranslateLanguage.ES;
+                    } else if (position == 2) {
+                        langCode = FirebaseTranslateLanguage.FR;
+                    } else if (position == 3) {
+                        langCode = FirebaseTranslateLanguage.DE;
+                    } else if (position == 4) {
+                        langCode = FirebaseTranslateLanguage.IT;
+                    } else {
+                        langCode = FirebaseTranslateLanguage.JA;
+                    }
                 }
             }
 
@@ -337,19 +339,25 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
             topConfidence[i] = String.format("%.0f%%",label.getValue()*100);
         }
 
-        // translate with correct language code.
-        translateText(FirebaseTranslateLanguage.JA);
+        translateText(langCode); //CANT HAVE TRANSLATE TEXT BEFORE TOP LABELS MADE!!!!!
 
         // set the corresponding textviews with the results
         label1.setText("1. "+topLabels[2]);
         label2.setText("2. "+topLabels[1]);
         label3.setText("3. "+topLabels[0]);
-        trans1.setText("1. "+translations[2]);
-        trans2.setText("2. "+translations[1]);
-        trans3.setText("3. "+translations[0]);
         Confidence1.setText(topConfidence[2]);
         Confidence2.setText(topConfidence[1]);
         Confidence3.setText(topConfidence[0]);
+        if (translations[0] != null) {
+            trans1.setText("1. "+translations[2]);
+            trans2.setText("2. "+translations[1]);
+            trans3.setText("3. "+translations[0]);
+        } else {
+            trans1.setText("1. "+topLabels[2]);
+            trans2.setText("2. "+topLabels[1]);
+            trans3.setText("3. "+topLabels[0]);
+        }
+
     }
 
 
@@ -413,7 +421,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
            @Override
            public void onSuccess(Void aVoid) {
 
-               for (int i = topLabels.length - 1; i >= 0; i--) {
+               for (int i = 2; i >= 0; i--) {
                    translator.translate(topLabels[i]).addOnSuccessListener(new OnSuccessListener<String>() {
                        @Override
                        public void onSuccess(String s) {
@@ -425,7 +433,16 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
                transIndex = RESULTS_TO_SHOW - 1;
            }
 
-        });
+        })
+        .addOnFailureListener(
+                new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Model couldn’t be downloaded or other internal error.
+                        // ...
+                        System.out.println(e + "FAILED TO TRANSLATE");
+                    }
+                });
     }
 
     @Override
