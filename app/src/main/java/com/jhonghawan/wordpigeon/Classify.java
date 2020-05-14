@@ -97,6 +97,7 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
     private Button classify_button;
     private Button back_button;
     private Button translate;
+    private Button print_button;
     private TextView label1;
     private TextView label2;
     private TextView label3;
@@ -249,6 +250,14 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
             }
         });
 
+        //print button
+        print_button = (Button)findViewById(R.id.print_button);
+        print_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         // get image from previous activity to show in the imageView
         Uri uri = (Uri)getIntent().getParcelableExtra("resID_uri");
         try {
