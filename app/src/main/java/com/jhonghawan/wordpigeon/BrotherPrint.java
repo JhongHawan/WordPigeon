@@ -38,7 +38,7 @@ public class BrotherPrint {
         settings.printMode = PrinterInfo.PrintMode.FIT_TO_PAGE;
         settings.valign = PrinterInfo.VAlign.MIDDLE;
         settings.align = PrinterInfo.Align.CENTER;
-        settings.isAutoCut = true;
+        settings.isAutoCut = false;
         settings.numberOfCopies = 1;
         printer.setPrinterInfo(settings);
 
@@ -83,14 +83,19 @@ public class BrotherPrint {
         // Hard coded to the first line item assuming the text is all the same.
         int width = (int) (paint.measureText(lines.get(0)) + 0.5f);
         int height = (int) (baseline + paint.descent() + 0.5f);
-        Bitmap image = Bitmap.createBitmap(width + 500, height + 350, Bitmap.Config.ARGB_8888);
+        Bitmap image = Bitmap.createBitmap(width + 500, height + 500, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
-        canvas.drawRect(0, 0, width + 500, height + 350, paint);
+        canvas.drawRect(0, 0, width + 500, height + 500, paint);
         paint.setColor(textColor);
         int increment = 0;
         // For every line of input draw it on the canvas and increment the next line.
-        for (String line : lines) {
-            canvas.drawText(line, 0, baseline + increment, paint);
+        int row = 1;
+        for (int i = 0; i < lines.size(); i++) {
+            String label = lines.get(i);
+            canvas.drawText(row + ". " + label, 0, baseline + increment, paint);
+            if (i % 2 == 1) {
+                row++;
+            }
             increment += 100;
         }
         return image;

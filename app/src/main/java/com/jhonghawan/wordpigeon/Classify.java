@@ -48,6 +48,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import static android.graphics.Color.BLACK;
+
 public class Classify extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     //Lang code for selected language from spinner
@@ -255,7 +257,15 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
         print_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                BrotherPrint brotherPrintManager = new BrotherPrint();
+                // Create a list with the labels and their translated pairs.
+                List<String> textToPrint = new ArrayList<>();
+                for (int i = topLabels.length - 1; i >= 0; i--) {
+                    textToPrint.add(topLabels[i]);
+                    textToPrint.add(translations[i]);
+                }
+                Bitmap image = brotherPrintManager.textAsBitmap(textToPrint, 48, BLACK);
+                brotherPrintManager.print(image);
             }
         });
         // get image from previous activity to show in the imageView
@@ -430,12 +440,14 @@ public class Classify extends AppCompatActivity implements AdapterView.OnItemSel
            @Override
            public void onSuccess(Void aVoid) {
 
-               for (int i = 2; i >= 0; i--) {
+               for (int i = topLabels.length - 1; i >= 0; i--) {
                    translator.translate(topLabels[i]).addOnSuccessListener(new OnSuccessListener<String>() {
                        @Override
                        public void onSuccess(String s) {
-                            translations[transIndex] = s;
-                            transIndex--;
+                           if (transIndex >= 0) {
+                               translations[transIndex] = s;
+                           }
+                           transIndex--;
                        }
                    });
                }
