@@ -12,9 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,6 +29,7 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import org.tensorflow.lite.Interpreter;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -37,27 +42,18 @@ import java.nio.channels.FileChannel;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
-public class Classify extends AppCompatActivity {
+import static android.graphics.Color.BLACK;
 
-    //spanish translator
-    private final FirebaseTranslator englishSpanishTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.ES));
-    //hindi translator
-    private final FirebaseTranslator englishHindiTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.HI));
-    //
-    private final FirebaseTranslator englishArabicTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.AR));
-    //
-    private final FirebaseTranslator englishPortugueseTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.PT));
-    //
-    private final FirebaseTranslator englishBengaliTranslator =
-            FirebaseNaturalLanguage.getInstance().getTranslator(createTranslator(FirebaseTranslateLanguage.EN,FirebaseTranslateLanguage.BN));
+public class Classify extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    //Lang code for selected language from spinner
+    private int langCode;
 
     // presets for rgb conversion
     private static final int RESULTS_TO_SHOW = 3;
@@ -77,10 +73,11 @@ public class Classify extends AppCompatActivity {
     // holds the probabilities of each label for quantized graphs
     private byte[][] labelProbArrayB = null;
     // array that holds the labels with the highest probabilities
-    private String[] topLables = null;
+    private String[] topLabels = null;
     // array that holds the highest probabilities
     private String[] topConfidence = null;
-
+    //map set with target language and source language words
+    private String[] translations = null;
 
     // selected classifier information received from extras
     private String chosen;
@@ -91,6 +88,9 @@ public class Classify extends AppCompatActivity {
     private int DIM_IMG_SIZE_Y = 299;
     private int DIM_PIXEL_SIZE = 3;
 
+    // used in the make translations method to access translations
+    private int transIndex = RESULTS_TO_SHOW - 1;
+
     // int array to hold image data
     private int[] intValues;
 
@@ -98,9 +98,14 @@ public class Classify extends AppCompatActivity {
     private ImageView selected_image;
     private Button classify_button;
     private Button back_button;
+    private Button translate;
+    private Button print_button;
     private TextView label1;
     private TextView label2;
     private TextView label3;
+    private TextView trans1;
+    private TextView trans2;
+    private TextView trans3;
     private TextView Confidence1;
     private TextView Confidence2;
     private TextView Confidence3;
@@ -153,8 +158,45 @@ public class Classify extends AppCompatActivity {
         } else {
             labelProbArray = new float[1][labelList.size()];
         }
+        setContentView(R.layout.activity_home_screen);
+        // on click for inception float model
+        translate = (Button)findViewById(R.id.translate);
+        translate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // filename in assets
 
+            }
+        });
         setContentView(R.layout.activity_classify);
+        Spinner spinner = findViewById(R.id.spinner1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    if (position == 1) {
+                        langCode = FirebaseTranslateLanguage.ES;
+                    } else if (position == 2) {
+                        langCode = FirebaseTranslateLanguage.FR;
+                    } else if (position == 3) {
+                        langCode = FirebaseTranslateLanguage.DE;
+                    } else if (position == 4) {
+                        langCode = FirebaseTranslateLanguage.IT;
+                    } else {
+                        langCode = FirebaseTranslateLanguage.JA;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         // labels that hold top three results of CNN
         label1 = (TextView) findViewById(R.id.label1);
@@ -164,11 +206,16 @@ public class Classify extends AppCompatActivity {
         Confidence1 = (TextView) findViewById(R.id.Confidence1);
         Confidence2 = (TextView) findViewById(R.id.Confidence2);
         Confidence3 = (TextView) findViewById(R.id.Confidence3);
+        // translated labels
+        trans1 = (TextView) findViewById(R.id.trans1);
+        trans2 = (TextView) findViewById(R.id.trans2);
+        trans3 = (TextView) findViewById(R.id.trans3);
         // initialize imageView that displays selected image to the user
         selected_image = (ImageView) findViewById(R.id.selected_image);
-
+        // initialize array to hold translations
+        translations = new String[RESULTS_TO_SHOW];
         // initialize array to hold top labels
-        topLables = new String[RESULTS_TO_SHOW];
+        topLabels = new String[RESULTS_TO_SHOW];
         // initialize array to hold top probabilities
         topConfidence = new String[RESULTS_TO_SHOW];
 
@@ -177,7 +224,7 @@ public class Classify extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Classify.this, com.jhonghawan.wordpigeon.ChooseModel.class);
+                Intent i = new Intent(Classify.this, ChooseModel.class);
                 startActivity(i);
             }
         });
@@ -199,11 +246,28 @@ public class Classify extends AppCompatActivity {
                 } else {
                     tflite.run(imgData, labelProbArray);
                 }
+
                 // display the results
                 printTopKLabels();
             }
         });
 
+        //print button
+        print_button = (Button)findViewById(R.id.print_button);
+        print_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BrotherPrint brotherPrintManager = new BrotherPrint();
+                // Create a list with the labels and their translated pairs.
+                List<String> textToPrint = new ArrayList<>();
+                for (int i = topLabels.length - 1; i >= 0; i--) {
+                    textToPrint.add(topLabels[i]);
+                    textToPrint.add(translations[i]);
+                }
+                Bitmap image = brotherPrintManager.textAsBitmap(textToPrint, 48, BLACK);
+                brotherPrintManager.print(image);
+            }
+        });
         // get image from previous activity to show in the imageView
         Uri uri = (Uri)getIntent().getParcelableExtra("resID_uri");
         try {
@@ -267,6 +331,9 @@ public class Classify extends AppCompatActivity {
         return labelList;
     }
 
+    /**
+     * TODO: Pass in the language code into this method as a variable.
+     */
     // print the top labels and respective confidences
     private void printTopKLabels() {
         // add all results to priority queue
@@ -287,17 +354,29 @@ public class Classify extends AppCompatActivity {
         final int size = sortedLabels.size();
         for (int i = 0; i < size; ++i) {
             Map.Entry<String, Float> label = sortedLabels.poll();
-            topLables[i] = label.getKey();
+            topLabels[i] = label.getKey();
             topConfidence[i] = String.format("%.0f%%",label.getValue()*100);
         }
 
+        translateText(langCode); //CANT HAVE TRANSLATE TEXT BEFORE TOP LABELS MADE!!!!!
+
         // set the corresponding textviews with the results
-        label1.setText("1. "+topLables[2]);
-        label2.setText("2. "+topLables[1]);
-        label3.setText("3. "+topLables[0]);
+        label1.setText("1. "+topLabels[2]);
+        label2.setText("2. "+topLabels[1]);
+        label3.setText("3. "+topLabels[0]);
         Confidence1.setText(topConfidence[2]);
         Confidence2.setText(topConfidence[1]);
         Confidence3.setText(topConfidence[0]);
+        if (translations[0] != null) {
+            trans1.setText("1. "+translations[2]);
+            trans2.setText("2. "+translations[1]);
+            trans3.setText("3. "+translations[0]);
+        } else {
+            trans1.setText("1. "+topLabels[2]);
+            trans2.setText("2. "+topLabels[1]);
+            trans3.setText("3. "+topLabels[0]);
+        }
+
     }
 
 
@@ -321,27 +400,80 @@ public class Classify extends AppCompatActivity {
                 .build();
     }
 
-    private void jimmy_test(){
-        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
-                .requireWifi()
-                .build();
-        englishSpanishTranslator.downloadModelIfNeeded(conditions)
-                .addOnSuccessListener(
-                        new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void v) {
-                                // Model downloaded successfully. Okay to start translating.
-                                // (Set a flag, unhide the translation UI, etc.)
-                            }
-                        })
-                .addOnFailureListener(
-                        new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Model couldn’t be downloaded or other internal error.
-                                // ...
-                            }
-                        });
+//    private void downloadModel(FirebaseTranslator translatorObj) {
+//        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
+//                .requireWifi()
+//                .build();
+//                translatorObj.downloadModelIfNeeded(conditions)
+//                .addOnSuccessListener(
+//                        new OnSuccessListener<String>() {
+//                            @Override
+//                            public void onSuccess(String s) {
+//                                // Model downloaded successfully. Okay to start translating.
+//                                // (Set a flag, unhide the translation UI, etc.)
+//
+//                                //display the translator
+//                            }
+//
+//                            }
+//                        })
+//                .addOnFailureListener(
+//                        new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                // Model couldn’t be downloaded or other internal error.
+//                                // ...
+//                            }
+//                        });
+//    }
+
+    private void translateText(int langCode) {
+        FirebaseTranslatorOptions options = createTranslator(FirebaseTranslateLanguage.EN, langCode);
+
+        final FirebaseTranslator translator = FirebaseNaturalLanguage.getInstance()
+                .getTranslator(options);
+
+        FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder().
+                requireWifi().build();
+
+        translator.downloadModelIfNeeded(conditions).addOnSuccessListener(new OnSuccessListener<Void>(){
+           @Override
+           public void onSuccess(Void aVoid) {
+
+               for (int i = topLabels.length - 1; i >= 0; i--) {
+                   translator.translate(topLabels[i]).addOnSuccessListener(new OnSuccessListener<String>() {
+                       @Override
+                       public void onSuccess(String s) {
+                           if (transIndex >= 0) {
+                               translations[transIndex] = s;
+                           }
+                           transIndex--;
+                       }
+                   });
+               }
+               transIndex = RESULTS_TO_SHOW - 1;
+           }
+
+        })
+        .addOnFailureListener(
+                new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Model couldn’t be downloaded or other internal error.
+                        // ...
+                        System.out.println(e + "FAILED TO TRANSLATE");
+                    }
+                });
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String text = parent.getItemAtPosition(position).toString();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
