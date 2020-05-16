@@ -5,7 +5,7 @@
 
 ## Demo 
 
-[INSERT DEMO VIDEO HERE]
+[Demo Video](https://www.youtube.com/watch?v=rZq6Tsc22yk&t=7s)
 
 ## Getting Started
 Welcome to Word Pigeon, a hackathon project for Brother Hackathon 2020. Our Android app uses machine learning image classification to make learning language vocabulary more enjoyable. Users are able to capture images of objects and our app will relay the top 3 most likely classifications and their language translations. They can then print the results to the QL-1100 label printer. Our language translations are created using Firebases ML Translation Kit. Original credits for the machine learning code go to Michael Sea with his integration of Tensorflows Inception Model on Android: https://github.com/soum-io/TensorFlowLiteInceptionTutorial
